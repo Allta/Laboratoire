@@ -204,13 +204,6 @@ root@8d3027edf640:/tmp# md5sum /var/opt/gitlab/gitlab-rails/etc/secrets.yml
 #### Creation du payload
 
 
-
-
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
-
-
 ## Reconnaissance
 
 
