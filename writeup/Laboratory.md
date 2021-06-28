@@ -234,6 +234,7 @@ root@448e6b22790a:/tmp# ./botb-linux-amd64 -autopwn                             
 
 Ce que fait BotB est simple, il installe docker via les sources officielles, et ensuite en utilisant le socket docker présent sur l'hôte il créer un container en lui montant le FS de l'hôte comme volume sur le nouveau container crée. 
 
+Voici le bout de code dans BotB qui permet de gérér le pwn : https://github.com/brompwnie/botb/blob/74ec7f0cac5da365176d2f9f4fb41beb97b97963/utils.go#L472 
 
 
 
