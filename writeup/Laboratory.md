@@ -123,6 +123,14 @@ ff02::2                                         H -001   1 ip6-allrouters
 On peut voir qu'il y a une URL Gitlab accessible depuis le Squid. 
 
 
+**Deuxième Solution**
+On peut passer par un squidclient directement, de cette manière il n'y a pas besoin du hostname et l'IP suffit : 
+
+```bash
+squidclient -h 192.168.1.19 mgr:fqdncache
+```
+
+
 ## GitLab
 
 ### Version 12.8.1 LFI
