@@ -139,6 +139,7 @@ Ensuite, il faut aller vérifier la version du Gitlab pour vérifier les différ
 
 Certains exploit sont 100% automatisés mais voici un compte rendu de l'exploit utilisé : [https://hackerone.com/reports/827052](https://hackerone.com/reports/827052) (Bounty de 20 000$ versé par Gitlab)
 
+Cette LFI nous permettra d'aller chercher le fichier `secret.yml` qui possède la clef privé de Gitlab.
 
 ### Exploit RCE
 Après avoir télécharger le `secret.yml` de Gitlab : 
