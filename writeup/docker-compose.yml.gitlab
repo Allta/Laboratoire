@@ -1,0 +1,29 @@
+version: '3'
+services:
+  web:
+    image: 'gitlab/gitlab-ce:12.8.1-ce.0'
+    container_name: 'gitlab'
+    restart: always
+    hostname: 'gitlab.laboratory.ctf'
+    #pid: 'host'
+    environment:
+      GITLAB_ROOT_PASSWORD: 'D3x!sTh€B3st'
+     #GITLAB_OMNIBUS_CONFIG: |
+              #external_url 'https://gitlab.laboratory.com'
+              #letsencypt['enable] = false
+        #  ports:
+        #    - '80:80'
+        #    - '443:443'
+    volumes:
+      - './config:/etc/gitlab'
+      - './logs:/var/log/gitlab'
+      - './data:/var/opt/gitlab'
+      - './gitlab.crt:/etc/gitlab/ssl/gitlab.laboratory.ctf.crt:'
+      - './gitlab.key:/etc/gitlab/ssl/gitlab.laboratory.ctf.key:'
+    cap_add:
+     - cap_sys_ptrace
+    networks:
+     - dps
+networks:
+  dps:
+    external: true

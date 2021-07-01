@@ -1,0 +1,19 @@
+version: '3'
+services:
+    dps:
+      image: dps_proxy
+      container_name: "docker_proxy"
+      environment:
+        - MG_REGISTER_CONTAINER_NAMES=1
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - /etc/resolv.conf:/etc/resolv.conf
+      pid: container:gitlab
+      command: "/app/dns-proxy-server"
+      networks:
+        - dps
+      restart: always
+networks:
+  dps:
+    external: true
+
