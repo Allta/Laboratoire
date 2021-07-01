@@ -144,11 +144,35 @@ squidclient -h 192.168.1.19 mgr:fqdncache
 Première étape est de se créer un compte sur le Gitlab. 
 
 ![Création de ocmpte gitlab](https://i.imgur.com/SfA1Bhs.png)
+
 Ensuite, il faut aller vérifier la version du Gitlab pour vérifier les différents exploits.
 
+![Version du Gitlab](https://i.imgur.com/B0xGHBP.png)
 Certains exploit sont 100% automatisés mais voici un compte rendu de l'exploit utilisé : [https://hackerone.com/reports/827052](https://hackerone.com/reports/827052) (Bounty de 20 000$ versé par Gitlab)
 
 Cette LFI nous permettra d'aller chercher le fichier `secret.yml` qui possède la clef privé de Gitlab.
+
+Tout d'abord il faut créer 2 projets, ici `source`et `dest`: 
+![Création des projets](https://i.imgur.com/cDfa2ki.png)
+
+Ensuite, dans un des projets il va falloir créer une issue : 
+
+![Création d'une issue](https://i.imgur.com/LmpX9Fm.png)
+
+
+Selon l'exploit, le déplacement des issues ne valide pas le nom des fichiers par une bonne Regex. Nous pouvons donc pousser un asbsolut path pour aller chercher n'importe quel fichier. 
+![LFI](https://i.imgur.com/yChziZL.png)
+
+
+Nous allons donc déplacement l'issue fraichement crée dans le second projet : 
+![Déplacement de l'issue](https://i.imgur.com/Azkj6lZ.png)
+
+Nous retrouvons bien le fichier `/etc/passwd` dans l'issue déplacée : 
+![LFI2](https://i.imgur.com/zMKyNBm.png)
+
+
+
+Maintenant que nous avons identifié la vulnérabilité il va falloir l'utiliser pour monter une RCE sur le serveur Gitlab.
 
 ### Exploit RCE
 Après avoir télécharger le `secret.yml` de Gitlab : 
