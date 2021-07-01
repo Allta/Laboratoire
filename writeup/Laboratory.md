@@ -35,6 +35,13 @@ On remarque du Debian 10. Une version d'SSH sans CVE connue et un proxy Squid.
 
 
 ## Squid
+
+L'objectif est de trouver les différents domaine qui ont été requêtés via le Squid. 
+Soit on lance une énum sur les ports du localhost en passant par le proxy soit on cherche les domaines direct dans la configuration de Squid.
+
+Dans notre cas les services tournent sur un réseau docker interne donc il faut aller chercher la configuration de Squid.
+Heureusement celle-ci est accessible suite à une mauvaise configuration et un manque d'authentification. 
+
 **Première Solution**
 ```bash
 {13:58}/netsec/box/Laboratory ➭ curl -x http://192.168.1.19:3128 http://192.168.1.19:3128/squid-internal-mgr/menu -I
