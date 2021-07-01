@@ -348,6 +348,12 @@ Dans le projet de Dexter on trouve une clef privée :
 ![dexter private key](https://i.imgur.com/8vpQ97G.png)
 
 
+On peut ainsi se connecter en tant que `Dexter`sur la box en utilisant la clef SSH : 
+
+
+
+
+
 ## Container Lateral Escapce
 
 
