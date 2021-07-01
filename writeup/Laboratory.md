@@ -35,7 +35,7 @@ On remarque du Debian 10. Une version d'SSH sans CVE connue et un proxy Squid.
 
 
 ## Squid
-
+**Première Solution**
 ```bash
 {13:58}/netsec/box/Laboratory ➭ curl -x http://192.168.1.19:3128 http://192.168.1.19:3128/squid-internal-mgr/menu -I
 
