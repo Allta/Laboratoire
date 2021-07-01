@@ -175,6 +175,11 @@ Nous retrouvons bien le fichier `/etc/passwd` dans l'issue déplacée :
 Maintenant que nous avons identifié la vulnérabilité il va falloir l'utiliser pour monter une RCE sur le serveur Gitlab.
 
 ### Exploit RCE
+
+La RCE se fait donc via la LFI. Il faut télécharger de la même manière vu précédente le fichier : `opt/gitlab/embedded/service/gitlab-rails/config/secrets.yml`
+
+![LFI3](https://i.imgur.com/19aDHax.png)
+
 Après avoir télécharger le `secret.yml` de Gitlab : 
 
 ```bash 
@@ -204,6 +209,8 @@ production:
 Pour générer notre payload il va falloir le créer à l'aide de la clef privée récupéré via la LFI.
 Pour cela il faut monter un gitlab de même version et y remplacer la clef générée par celle récupérée. 
 Le meilleur moyen de monter un Gitlab rapidement et avec la bonne version est via Docker. 
+
+![DockerHub](https://i.imgur.com/4LwD6En.png)
 
 ```bash
 {15:24}/netsec/box/Laboratory ➭ docker pull gitlab/gitlab-ce:12.8.1-ce.0
@@ -317,6 +324,28 @@ irb(main):021:0> u.save!
 
 ```
 
+## User Dexter
+
+
+Maintenant que nous sommes admin sur le gitlab nous avons accès à la partie Administration ainsi que tout les projets.
+
+![admin interface](https://i.imgur.com/7Cza4xW.png)
+
+Cliquez sur `Projects`:
+
+![project in interface](https://i.imgur.com/GpNRWdU.png)
+
+Et naviguez jusqu'au projet de Dexter : 
+
+![Dexter Project](https://i.imgur.com/69rBvj2.png)
+
+On se rajoute en tant que `Maintenair`sur le projet pour pouvoir accéder et lire les fichiers : 
+
+![ajout de notre user sur le projet](https://i.imgur.com/cRuGmjE.png)
+
+Dans le projet de Dexter on trouve une clef privée : 
+
+![dexter private key](https://i.imgur.com/8vpQ97G.png)
 
 
 ## Container Lateral Escapce
